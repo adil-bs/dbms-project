@@ -33,7 +33,7 @@ export async function getItems(api) {
 }
 export async function isLogged(){
     const res =await getItems(`http://127.0.0.1:8000/auth/islogged/${localStorage.getItem("id") || 0}/`)
-    console.log(res);
+
     return res.isLogged?true:false
 }
 export async function redirectIfNotLogged(pathname){

@@ -42,11 +42,11 @@ export default function Bookshelf() {
     )
 
     filteredSearch = filteredSearch.filter(ele => 
-        (filter[ele.rating] || ele.rating===0) &&
+        (filter[Math.round(ele.rating)] || ele.rating===0) &&
         new Date(ele.publication) >= new Date(filter.After) &&
         new Date(ele.publication) <= new Date(filter.Before)
     )
-
+    console.log(filteredSearch);
     if (sortInfo.sortValue === "Rating") {
         filteredSearch.sort((a,b) => 
             sortInfo.direction==="asc"

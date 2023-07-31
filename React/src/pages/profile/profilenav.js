@@ -21,7 +21,7 @@ export default function ProfileNav() {
                     className={({isActive}) => "profile--navlink" + (isActive ?" profile--navlink--active":"")}
                 > Activities </NavLink>
 
-                <NavLink
+                {/* <NavLink
                     to='preference'
                     className={({isActive}) => "profile--navlink" + (isActive ?" profile--navlink--active":"")}
                 > Preferences </NavLink>
@@ -29,7 +29,7 @@ export default function ProfileNav() {
                 <NavLink 
                     to="recommendations"
                     className={({isActive}) => "profile--navlink" + (isActive ?" profile--navlink--active":"")}
-                > Recommendations </NavLink>
+                > Recommendations </NavLink> */}
             </nav>
             
             <main style={{marginLeft:"15%",width:"70%"}}>

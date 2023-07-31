@@ -120,7 +120,7 @@ def review(request,book_id):
     if request.method=='POST':
         page_no = request.data.get('pageno')
         user_id = request.data.get('userid') 
-        getOneReview = request.data.get('getOneReview') 
+        getOneReview = request.data.get('getOneReview') or 0
 
         items_per_page = 10
         with conn.cursor() as cur:

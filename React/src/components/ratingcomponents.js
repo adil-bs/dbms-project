@@ -13,7 +13,7 @@ export function StarBlink({bookId,className,style,logged}) {
     React.useEffect( () => {
         async function call() {
             const  review =await postItems(
-                {pageno:1,userid:localStorage.getItem('id'),getOneReview:1},
+                {pageno:1,userid:localStorage.getItem('id') || 0,getOneReview:1},
                 `http://127.0.0.1:8000/book/${bookId}/review`
             )
             if (logged && review.data[0] && review.data[0].rating) {    

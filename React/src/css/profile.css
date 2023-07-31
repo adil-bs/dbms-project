@@ -40,6 +40,11 @@
   border: 2px solid black;
   padding: 19px 17px 15px 17px;
 }
+.forgot:hover{
+  text-decoration: underline;
+  cursor: pointer;
+  transform: scale(1.1);
+}
 .auth--navbar{
   align-items: center;
   display: flex;
@@ -131,6 +136,20 @@
     text-decoration: underline;
   }
 
+  .view--more{
+    color: rgb(96, 151, 3);
+    padding:5px ;
+  }
+  .view--more:hover{
+    transform: scale(1.1);
+    border-style: solid;
+    border-width: 0 0  3px 0;
+    border-color: rgb(4, 207, 4);
+  }
+  .view--more:active{
+    box-shadow: 0 0  15px 5px ;
+    border-radius: 20px;
+  }
   .profile--container{
     display: grid;
     grid-template-rows:130px  1fr;
@@ -139,7 +158,7 @@
   }
   .profile--navbar{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     border-radius: 15px;
     margin: 50px 15% 30px 15%;
     width: 70%;
@@ -186,6 +205,8 @@
   .vertical--table{
     border-spacing: 10px;
     white-space:break-spaces;
+    display: grid;
+    justify-content: center;
   }
   .vertical--table th{
     padding-right: 60px;

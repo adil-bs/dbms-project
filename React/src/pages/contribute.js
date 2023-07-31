@@ -2,9 +2,14 @@ import React from "react";
 import { Form, useActionData, useNavigate } from "react-router-dom";
 import InputMany from "../components/inputmany";
 import { ErrorMsg } from "./auth";
-import { postItems } from "../utility";
+import { postItems, redirectIfNotLogged } from "../utility";
 
+export async function loader () {
+    await redirectIfNotLogged("/contribute")
+    return null
+}
 export async function action ({request}) {
+
     const formData = await request.formData()
     var bookDetail = Object.fromEntries(formData)
 
@@ -20,6 +25,7 @@ export async function action ({request}) {
     }
     console.log(bookDetail);
     const res = await postItems(bookDetail,`http://127.0.0.1:8000/${localStorage.getItem("id")}/addbook/`)
+    console.log(res);
     return res
     // return null
 }
@@ -35,11 +41,13 @@ export default function Contribute() {
     React.useEffect( () => {
         async function call() {
             const res = await postItems(formData,"http://127.0.0.1:8000/isbook/")
+            
             setFormData(prev => ({...prev,exist:res.exist}))
         }
         call()
+        
     },[formData.name,formData.author])
-
+    // console.log(formData);
     const handleChange= (e) => {
         setFormData(prev => ({...prev,[e.target.name] : e.target.value.trim()}))
     }
@@ -70,7 +78,7 @@ export default function Contribute() {
     }
 
     return(
-        res?.message!=="added successfully" ?
+        res?.messsage!=="added successfully" ?
 
         <Form className="contribute--container" method="post" replace>
             
@@ -87,7 +95,7 @@ export default function Contribute() {
                     onChange={handleChange}
                     required
                 />
-                {formData.exist !==0 && formData.exist &&
+                {formData.exist !== undefined && formData.exist !== 0 &&
                   <ErrorMsg msg="The book with same author is with us" condition={formData.exist && 0}/>} 
             </div>
 
@@ -141,7 +149,7 @@ export default function Contribute() {
                     onChange={handleChange}
                     required
                 />  
-                {formData.exist !==0 && formData.exist &&
+                {formData.exist !== undefined && formData.exist !== 0 &&
                   <ErrorMsg msg="The book with same author is with us" condition={formData.exist && 0}/>} 
             </div>
             

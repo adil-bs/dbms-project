@@ -8,7 +8,7 @@ import SuchEmpty from "../components/suchempty";
 
 export async function loader(){
     const res=await isLogged()
-    console.log("loader",res);
+    // console.log("homenavloader",res);
     return {logged:res}
 }
 export async function action({request}) {
@@ -21,7 +21,6 @@ export default function Homenav () {
     const [search,setSearch] = React.useState('')
     const searchResultsRef = React.useRef()
     const [searchResults,setSearchResults] = React.useState({visible:false,data:[]})
-    const location = useLocation()
     
     React.useEffect(()=>{ 
         async function call() {
@@ -83,8 +82,8 @@ export default function Homenav () {
 
                 </div>
                 
-                <Link to={localStorage.getItem("id")?"/profile":'/auth'} className="homenav--login noLink">
-                    {logged
+                <Link to={logged && localStorage.getItem("id")?"/profile":'/auth'} className="homenav--login noLink">
+                    {logged && localStorage.getItem("id")
                         ?   <CropImage 
                                 src='/images/defaultprofilepic.png'
                                 className="homenav--profile" 

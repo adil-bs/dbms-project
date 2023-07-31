@@ -10,7 +10,6 @@ export default function Paginate(props) {
     const moveBy = Math.floor(displayAtOnce/2)   //to move the selected page towards middle of the paginate array
 
     React.useEffect(()=>{
-        props.scrollRef.current.scrollIntoView({ block: 'start' })
         const pageno=parseInt(searchParam.get("pageno") || 1)
         //selected page always comes in the middle of paginate array (exception being pages at the very last and at the very first)
         setStartPageNo(pageno>lastPageNo-moveBy ?     //checks whether current page is among one of the very last
@@ -22,6 +21,7 @@ export default function Paginate(props) {
     },[searchParam])
 
     const handleSearchParam = pageno => {
+        props.scrollRef.current.scrollIntoView({ block: 'start' })
                                                        
         setSearchParam(prevParam => {
             prevParam.set('pageno',pageno)
@@ -31,6 +31,7 @@ export default function Paginate(props) {
     }
 
     const handleSearchParamByOneUnit = direction => {
+        props.scrollRef.current.scrollIntoView({ block:"start" })
 
         setSearchParam(prevParam => {
             const previousPage = parseInt(prevParam.get("pageno")) - 1

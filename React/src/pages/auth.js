@@ -4,12 +4,19 @@ import { postItems } from "../utility";
 
 export async function action({request}){
     const formData = await request.formData()
+    const endPoint = formData.has("login") 
+        ? "signin" 
+        : formData.has("forgot")
+            ? "fp"
+            : "signup"
+    
     const creds = Object.fromEntries(formData)
 
     const data = await postItems(
         creds,
-        `http://127.0.0.1:8000/auth/${ formData.has("login") ? "signin" : "signup" }/`
+        `http://127.0.0.1:8000/auth/${ endPoint }/`
     )
+    console.log(data,creds);
     return data;
 }
 
@@ -51,15 +58,45 @@ export function ErrorMsg(props) {
     )
 }
 
+export function EmCpP({responseData}) {
+    const passwordConditions = ["password must contain atleast 8 characters","password should contain atleast one uppercase"]
+    return(
+        <div>
+            <label htmlFor="name">Your Name</label>
+            <input required type="text" name="name" id="name" placeholder={"First and Last Name"} />
+            <div/><br/>
+
+            <label htmlFor="password" >password</label>
+            <Password name="password"/>
+            
+            {responseData.error === 1
+            ?   responseData.password.map(ele => <ErrorMsg key={ele} msg={ele} condition={0}/>) 
+            :   passwordConditions.map(ele=> <ErrorMsg key={ele} msg={ele}/>)
+            } 
+                
+            <div/><br/>
+                
+            <label htmlFor="confirmPassword" >Confirm password</label>
+            <Password name="confirmPassword"/>
+            <br /><br /> 
+
+        </div>
+    )
+}
+
 export default function Authentication() {
     const [page,setPage] = React.useState("Login")
     const responseData= useActionData() || {error:'initial',password:[],email:[],common:[]}
     const searchParams = useSearchParams()[0]
     const navigate = useNavigate()
 
-    const passwordConditions = ["password must contain atleast 8 characters","password should contain atleast one uppercase"]
     React.useEffect(()=>{
-        if ( ! responseData.error ){
+        if ( ! responseData.error ) {
+            if (responseData.message==="changed") {
+                navigate("/auth?msg=Password Changed")
+                navigate(0)
+                return
+            }
             localStorage.setItem("id",responseData.id)
             localStorage.setItem("user",responseData.name)
             navigate( searchParams.get("redirectTo")? searchParams.get("redirectTo"):'/profile'  ,{replace:true})
@@ -82,7 +119,7 @@ export default function Authentication() {
 
             {page==="Login"?
 
-            <Form method="post" >
+            <Form method={"post"}  >
                 <input name="login" hidden/>
                 {searchParams.get("msg") && <h3 className="red">{searchParams.get("msg")}</h3>}
 
@@ -97,7 +134,11 @@ export default function Authentication() {
                 <label htmlFor="password" >Password</label>
                 <Password name="password"/>
                 
-                <p>Forget your password?</p>
+                <p 
+                    onClick={()=>setPage("forgot")}
+                    className="forgot"
+                > Forget your password?</p>
+
                 <button className="sign--in" type="submit">Sign in</button>
                 <br/><br />
 
@@ -114,52 +155,43 @@ export default function Authentication() {
                 
             </Form> 
             
+            : page === "forgot"
+            ?   
+                <Form method="post">
+                    <input name="forgot"  hidden/>
+                    <EmCpP responseData={responseData}/>
+                    <button className="create--acc">Change Password</button>
+                </Form>
+            
             :
+                <Form method="post">
+                    <input name="signup"  hidden/>
 
-            <Form method="post">
-                <input name="signup"  hidden/>
-
-                {responseData.error && 
-                responseData.common.map(ele => (
-                    <div key={ele} style={{display:"flex"}}>
-                        <ErrorMsg  msg={ele} condition={0}/>
-                        <button 
-                            className="nobutton tryLogin"
-                            type="button" 
-                            onClick={()=>setPage("Login")}
-                        >Try logging in &gt;&gt;</button>
-                        <br/>
-                    </div>
-                ) )}
-
-                <label htmlFor="name">Your Name</label>
-                <input required type="text" name="name" id="name" placeholder={"First and Last Name"} />
-                <div/><br/>
-
-                <label htmlFor="email">Email</label>
-                <input required type="email" name="email" id="email" placeholder="something@xyz.com"/>
+                    {responseData.error && 
+                    responseData.common.map(ele => (
+                        <div key={ele} style={{display:"flex"}}>
+                            <ErrorMsg  msg={ele} condition={0}/>
+                            <button 
+                                className="nobutton tryLogin"
+                                type="button" 
+                                onClick={()=>setPage("Login")}
+                            >Try logging in &gt;&gt;</button>
+                            <br/>
+                        </div>
+                    ) )}
+                    <label htmlFor="email">Email</label>
+                    <input required type="email" name="email" id="email" placeholder="something@xyz.com"/>
     
-                {responseData.error && 
-                 responseData.email.map(ele => <ErrorMsg key={ele} msg={ele} condition={0}/>) 
-                }
-                <div/><br/>
+                    {responseData.error && 
+                    responseData.email.map(ele => <ErrorMsg key={ele} msg={ele} condition={0}/>) 
+                    }
+                    <div/><br/>
 
-                <label htmlFor="password" >password</label>
-                <Password name="password"/>
-                
-                {responseData.error === 1
-                ?   responseData.password.map(ele => <ErrorMsg key={ele} msg={ele} condition={0}/>) 
-                :   passwordConditions.map(ele=> <ErrorMsg key={ele} msg={ele}/>)
-                } 
-                
-                <div/><br/>
-                
-                <label htmlFor="confirmPassword" >Confirm password</label>
-                <Password name="confirmPassword"/>
-                <br /><br />
-                
-                <button className="create--acc">Create Account</button>
-            </Form>}
+                    <EmCpP responseData={responseData}/>
+                    
+                    <button className="create--acc">Create Account</button>
+                </Form>
+            }
         </div>
         
     )

@@ -120,8 +120,8 @@ def forgotPassword(request):
     if is_valid ==True: 
         with conn.cursor() as cur:
             cur.execute("UPDATE user SET password = %s WHERE user_id =%s ;",(make_password(password),user[0],))
-            return Response ({'message':'hello there'})
-    return Response({'error':error})
+            return Response ({'message':'changed'})
+    return Response(error)
 
 @api_view(['GET'])
 def isLogged(request,userid):
