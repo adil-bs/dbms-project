@@ -33,6 +33,11 @@ export default function PofileIndex() {
     const {activities,bookshelfData} = useLoaderData()
     const statistics =["Contributions","Reviews","Ratings","Comments"]
 
+    const saveNameChange = async ()=>{
+        SetNameChange(prev => ({...prev,bool:false}) )
+        const res = await postItems({username:nameChange.new},`http://127.0.0.1:8000/auth/changeusername/${localStorage.getItem("id")}/`)
+        if (res.message = 'username changed') localStorage.setItem("user",nameChange.new)
+    }
     return(
         <div>
             {/* <div className="personal--details"> */}
@@ -44,13 +49,13 @@ export default function PofileIndex() {
 
                 <div>
                     {nameChange.bool
-                    ?   <input 
+                    ?   <h1><input 
                             defaultValue={user}
-                            className="contribute--input"
-                            onBlur={()=>SetNameChange(prev => ({...prev,bool:false}) )}
+                            className="contribute--input namechange"
+                            onBlur={saveNameChange}
                             onChange={(e)=>SetNameChange(prev => ({...prev,new:e.target.value}) )}
                             value={nameChange.new}
-                        />
+                        /></h1>
                 
                     :   <div className="your--review">
                             <h1>{nameChange.new}  </h1>

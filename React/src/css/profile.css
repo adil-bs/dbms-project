@@ -196,6 +196,10 @@
     width: 100%;
     object-fit: cover;
   }
+  .namechange{
+    font-size: 30px;
+    font-weight: 700;
+  }
   .personal--stats{
     display: grid;
     place-items: center center;
