@@ -8,5 +8,6 @@ urlpatterns = [
     path("logout/<str:id>/",views.logout),
     path('fp/',views.forgotPassword),
     path('islogged/<str:userid>/',views.isLogged),
+    path('changeusername/<str:userid>/',views.changeUsername)
       
 ]

@@ -134,7 +134,14 @@ def isLogged(request,userid):
           return Response({"isLogged":1})
      return Response({"isLogged":0})
 
-@api_view(['GET'])
-def home(request):
-     
-     return Response("hai ")
+@api_view(['POST'])
+def changeUsername(request,userid):
+     username = request.data.get('username')
+     with conn.cursor() as cur:
+          cur.execute("SELECT * FROM user WHERE user_id = %s",(userid,))
+          row =cur.fetchone()
+     if row:
+          with conn.cursor() as cur:
+            cur.execute("UPDATE user SET user_name = %s WHERE user_id = %s",(username,userid))
+            return Response({"message":"username changed"})
+     return Response({"message":"error"})
