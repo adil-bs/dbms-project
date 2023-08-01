@@ -19,6 +19,12 @@ const Review = (props) => {
             navigate(`/auth?redirectTo=${location.pathname}&msg=You Must Be Logged In First`)
             return
         }
+        setLike(!like)
+  
+        setDisplayLikeCount(prev =>{
+            if (like) return approximate(expand(prev)-1)
+            else return approximate(expand(prev)+1)
+        })
 
         const res = await postItems(
             {isliked:like},
@@ -28,12 +34,12 @@ const Review = (props) => {
     }
 
     function handleLikeClick() {
-        setLike(!like)
+        // setLike(!like)
   
-        setDisplayLikeCount(prev =>{
-            if (like) return approximate(expand(prev)-1)
-            else return approximate(expand(prev)+1)
-        })
+        // setDisplayLikeCount(prev =>{
+        //     if (like) return approximate(expand(prev)-1)
+        //     else return approximate(expand(prev)+1)
+        // })
     }
     async function handleCommentClick () {
         if (!await isLogged())
