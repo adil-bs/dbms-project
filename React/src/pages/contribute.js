@@ -44,7 +44,7 @@ export default function Contribute() {
             
             setFormData(prev => ({...prev,exist:res.exist}))
         }
-        call()
+        if (formData.name!=='' && formData.author!=="")call()
         
     },[formData.name,formData.author])
     // console.log(formData);
@@ -101,7 +101,8 @@ export default function Contribute() {
 
             <div className="inputfield">
                 <div className="contribute--imgselectors">
-                {["url","upload"].map(ele=>(
+                {/* {["url","upload"].map(ele=>( */}
+                {["url"].map(ele=>(
                     <span key={ele} className={`contribute--img--decorate${ele===imageMethod ? " contribute--img--decorateACTIVE":"" }`}>
                         <button
                             type="button"
