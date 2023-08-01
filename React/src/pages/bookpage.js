@@ -138,7 +138,7 @@ export default function BookPage() {
                 {reviews && reviews.length!==0 
                 ?   <>
                     {reviewSection}
-                    <Paginate scrollRef={reviewRef} totalItems={totalItems} itemsPerPage={10} />
+                    <Paginate scrollRef={reviewRef} totalItems={totalItems} itemsPerPage={20} />
                     </>             
                 :   <SuchEmpty msg={`Would you be so kind to be the first one to <a href="/book/${bookData.id}/review">Review</a>`}/>
                 }

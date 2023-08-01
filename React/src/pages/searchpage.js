@@ -51,7 +51,7 @@ export default function SearchPage() {
                 ?   results.data && results.data.length!==0 
                     ?   <>
                             {searchResults}
-                            <Paginate scrollRef={containerRef} totalItems={results.totalItems} itemsPerPage={10}/>
+                            <Paginate scrollRef={containerRef} totalItems={results.totalItems} itemsPerPage={20}/>
                         </>   
                     :   <SuchEmpty msg={`Couldn't find the book you are looking for? <a href="/contribute">Contribute to us</a>`}/>
                 :   <Loading msg="Fetching the details for you"/>

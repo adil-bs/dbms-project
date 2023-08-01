@@ -101,7 +101,7 @@ export default function ReviewSection() {
                         <div ref={commentRef}>
                             {theComments}
                         </div>
-                        <Paginate scrollRef={commentRef} totalItems={commentsData.totalItems} itemsPerPage={10}/>
+                        <Paginate scrollRef={commentRef} totalItems={commentsData.totalItems} itemsPerPage={20}/>
                     </>
                 :   <SuchEmpty msg="Be the first one to comment "/>
                 }

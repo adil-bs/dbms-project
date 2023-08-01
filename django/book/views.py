@@ -55,7 +55,7 @@ def search_books(request):
         genre = request.data.get('genre')
         key = request.data.get('book')
         page_no= request.data.get('pageno')
-        items_per_page = 10
+        items_per_page = 20
         query = "SELECT book.book_id,book.book_title,book.author,book.cover_pic,book.description,book.published_on,book.avg_rating,GROUP_CONCAT(genre.genre) FROM book JOIN genre ON book.book_id = genre.book_id "
         if user_id:
             query += f" JOIN shelf ON shelf.book_id = book.book_id WHERE shelf.user_id = '{user_id}'"
@@ -122,7 +122,7 @@ def review(request,book_id):
         user_id = request.data.get('userid') 
         getOneReview = request.data.get('getOneReview') or 0
 
-        items_per_page = 10
+        items_per_page = 20
         with conn.cursor() as cur:
             cur.execute(f"""
     SELECT user.user_name, review.review_id,review.review, review.rating,review.tags, review.spoiler, review.likes, COUNT(comment), review.date
