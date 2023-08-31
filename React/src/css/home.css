@@ -119,17 +119,22 @@ textarea {
 .displaydots--container {
   display: flex;
   justify-content: center;
-  height: 50px;
+  align-items: center;
+  height: 35px;
 }
 .dots{
-  height: 15px;
-  width: 15px;
+  height: 17px;
+  width: 17px;
   border-radius: 50%;
   margin-right: 1%;
-  border: 1px solid rgb(0, 0, 0);
+  border: 2px solid black;
   cursor: pointer;
+  transition: background-color 0.5s ease;
   background-color: transparent;
-  transition: width 0.9s ease;
+}
+.dotsClicked{
+  background-color: rgb(40, 5, 169);
+  box-shadow:0 0 3px 2px rgb(102, 102, 246);
 }
 .homepage--heading{
   margin-left: 80px;

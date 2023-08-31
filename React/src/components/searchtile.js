@@ -21,9 +21,9 @@ export function MiniSearchTile(props) {
                 <br/>
                 <RatingRatio rating={props.rating} className="searchtile--rate"/>
                 <br/>
-                {props.genre?.map(ele => 
+                {props.genre?.map((ele,i) => 
                     <Link 
-                        key={ele} 
+                        key={i} 
                         className="noLink review--point review--point--more"
                         to={"/search?genre="+ele.trim()}    
                     > {ele} </Link>
@@ -66,9 +66,9 @@ export default function SearchTile(props) {
         
                 {props.publication &&<p className="gray">Published on {fullDate(props.publication)}</p>}
 
-                {props.genre?.map(ele => 
+                {props.genre?.map((ele,i) => 
                     <Link 
-                        key={ele} 
+                        key={i} 
                         className="noLink review--point review--point--more"
                         to={"/search?genre="+ele.trim()}    
                     > {ele} </Link>

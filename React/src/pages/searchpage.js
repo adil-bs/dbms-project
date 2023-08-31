@@ -46,7 +46,7 @@ export default function SearchPage() {
     return(
         <div ref={containerRef} className="searchpage--container">
             <div className="searchpage--results">
-                <h1>Showing Results For "{key}"</h1>
+                <h1>Showing Results For {key}</h1>
                 {!loading
                 ?   results.data && results.data.length!==0 
                     ?   <>

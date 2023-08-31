@@ -25,8 +25,7 @@ import ErrorPage from "./components/sadpath";
 export default function App () {
     const router = createBrowserRouter(createRoutesFromElements(
         <Route path="/" element={<Homenav />} loader={homenavLoader} action={searchAction} errorElement={<ErrorPage/>} >
-            <Route path='*' element={<Error404/>} />
-            <Route errorElement={<ErrorPage/>}>
+            <Route path='*' element={<Error404/>} errorElement={<ErrorPage/>}/>
             
             <Route index element={<Homepage />} loader={homepageLoader}/>
             <Route path="book/:bookId" element={<BookPage />} loader={bookpageLoader}/>
@@ -34,20 +33,15 @@ export default function App () {
             <Route path="search" element={<SearchPage />} loader={searchLoader}/>
             <Route path="book/:bookId/review" element={<ReviewPage />} loader={reviewLoader} action={reviewAction}/>
             <Route path="/contribute" element={<Contribute/>} loader={contributeLoader} action={contributeAction}/>    
-            <Route path="/auth" element={<Authentication/>} action={authAction}/>
+            <Route path="/auth" element={<Authentication/>} action={authAction}/>           
             
-            </Route>            
-            
-            <Route path="profile" element={<ProfileNav />} >
-                <Route errorElement={<ErrorPage/>}>
+            <Route path="profile" element={<ProfileNav />} errorElement={<ErrorPage/>}>
                 
                 <Route index element={<ProfileIndex/>} loader={profileLoader}/> 
                 <Route path="activity" element={<Activity/>} loader={activityLoader} />
                 {/* <Route path="preference" element={<Preference/>} />
                 <Route path="recommendations" element={<Recommendations/>} /> */}
-                <Route path="bookshelf" loader={bookshelfLoader} element={<Bookshelf/>}/>
-            
-                </Route>    
+                <Route path="bookshelf" loader={bookshelfLoader} element={<Bookshelf/>}/>  
             </Route>    
             
         </Route>

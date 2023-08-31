@@ -6,9 +6,9 @@ export default function Booktile(props) {
     const name = props.name.length>35? props.name.slice(0,35)+"..." : props.name
     return(
         <div className="booktile">
-            <a href={'/book/'+props.id} >
+            <Link to={'/book/'+props.id} >
                 <img className="booktile--img" src={props.image} alt={props.name}/>
-            </a>
+            </Link>
 
             <div className="booktile--rate">
                 <img className="booktile--rate--img" src={process.env.PUBLIC_URL+"/images/star.png"} alt="ye"/>
@@ -26,11 +26,11 @@ export default function Booktile(props) {
             />
 
             <div className="booktile--name">
-                <a 
-                    href={'/book/'+props.id} 
+                <Link
+                    to={'/book/'+props.id} 
                     className="noLink searchtile--head"
                 >  <b>{name}</b>
-                </a>  <br/>
+                </Link>  <br/>
                 <small>{props.author}</small> 
             </div>    
 

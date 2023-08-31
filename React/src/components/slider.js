@@ -8,12 +8,16 @@ export default function Slider (props) {
     const containerRef = React.useRef(null)
     const location = useLocation()
     const [data,setData] = React.useState({books:[],pageno:1,totalbooks:0})
-    const [scroll,setScroll] = React.useState()
-    const [loading,setLoading] = React.useState(false)
+    const [loading,setLoading] = React.useState(true)
+    const [clickCounter,setClickCounter] = React.useState(0)
 
     React.useEffect(()=>{
-        async function call() {
-            const newdata=await postItems({...props.postObject,pageno:data.pageno},props.api)
+        async function getNewBooks() {
+            const newdata=await postItems(
+                {...props.postObject,pageno:data.pageno},
+                props.api
+            )
+       
             setLoading(true)
             setData(prev => { return( {
                 books:prev.books.concat(newdata.data) ,
@@ -22,31 +26,42 @@ export default function Slider (props) {
             })})
             setLoading(false)
         }
+
         if (
-            containerRef.current.scrollLeft >= containerRef.current.clientWidth*2*(data.pageno-1) &&
-            data.pageno-1 <= data.totalbooks/10     
+            clickCounter  >= 2*(data.pageno-1) &&
+            data.pageno-1 <= data.totalbooks/20     
         ) 
-            call()
-    },[location.pathname,scroll])
-    // React.useEffect(()=>{
-    //     setData({books:[],pageno:1,totalbooks:0})
-    //     containerRef.current.scrollLeft=0
-    // },[location.pathname])
+            getNewBooks()
 
-    const booktiles =data.books && data.books.map(obj => <Booktile key={obj.id} logged={props.logged} {...obj} />)
+    },[location.pathname,props,data,clickCounter])
 
-    function handleclick(direction) {
-        containerRef.current.scrollLeft = direction==="left"
-        ?   containerRef.current.scrollLeft-containerRef.current.clientWidth 
-        :   containerRef.current.scrollLeft+containerRef.current.clientWidth
-        
-        setScroll( containerRef.current.scrollLeft)
+    function handleScrollDirection(direction) {
+        containerRef.current.scrollBy({
+            left : direction * containerRef.current.clientWidth
+        })
+
+        setClickCounter(prev => prev+direction)
     }
+
+    const booktiles =data.books.map(obj => 
+        <Booktile 
+            key={obj.id} 
+            logged={props.logged} 
+            {...obj} 
+        />
+    )
     
     return(
          <div style={{overflow:"hidden"}}>
-            <button className="slider--greater nobutton" onClick={()=>handleclick("right") } >&gt;</button>
-            <button className="slider--lesser nobutton" onClick={()=>handleclick("left")} >&lt;</button>
+            <button 
+                className="slider--greater nobutton" 
+                onClick={()=>handleScrollDirection(1) } 
+            > &gt; </button>
+            <button 
+                className="slider--lesser nobutton" 
+                onClick={()=>handleScrollDirection(-1)} 
+            > &lt; </button>
+
             <div className="slider" ref={containerRef}>
                 {booktiles}
                 {loading && <Loading/>}
